@@ -1,4 +1,16 @@
+
 import json
+
+
+def myfunc(thislist):
+  return thislist["rating"]
+
+
+f = open('movies.json',)
+movies = json.load(f)
+f.close()
+
+
 
 movies = []
 
@@ -18,28 +30,33 @@ while True:
     choice = input("Enter your choice: ")
 
     if choice == "1":
-        # https://www.w3schools.com/python/python_dictionaries.asp
-        # https://www.w3schools.com/python/python_lists_add.asp
-        title = input("Enter movie title: ")
-        rating = input("Enter movie rating: ")
+        movies_top= {}
+        movies_top["title"]=input("Enter movie title: ") 
+        movies_top["rating"]=float(input("Enter movie rating:"))
+        movies_top["watched"]= False
+        movies.append(movies_top)     
+        print(movies)
         pass
     elif choice == "2":
-        # https://www.w3schools.com/python/python_lists_sort.asp
-        # https://www.w3schools.com/python/python_dictionaries_access.asp
+        thislist = movies.copy()
+        thislist.sort(key=myfunc, reverse = True)
+        print(thislist)
         pass
     elif choice == "3":
-        # https://www.w3schools.com/python/python_lists_comprehension.asp
-        # https://www.w3schools.com/python/python_dictionaries_access.asp
+        newlist = [x for x in movies if x["watched"]== False]
+        print(newlist)
         pass
     elif choice == "4":
-        # https://www.w3schools.com/python/python_lists_change.asp
-        # https://www.w3schools.com/python/python_dictionaries_change.asp
         id = int(input("Enter the index of the movie to mark: "))
+        movies[id]["watched"] = True
     elif choice == "5":
-        # https://www.w3schools.com/python/python_lists_remove.asp
         id = int(input("Enter the index of the movie to remove: "))
+        movies.pop(id)
+        print(movies)
     elif choice == "6":
         print("Exiting...")
+        with open("movies.json", "w") as outfile:
+            json.dump(movies, outfile)
         break
     else:
         print("Invalid choice. Please try again.")
